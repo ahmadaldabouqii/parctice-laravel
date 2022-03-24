@@ -37,7 +37,16 @@
                             <a class="nav-link" href="/add-category">Add Categories</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact">Contact Us</a>
+                            <a class="nav-link" href="/add-sub-category">Add Sub Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/users">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/categories">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/sub-categories">Sub Categories</a>
                         </li>
                     </ul>
                 </div>

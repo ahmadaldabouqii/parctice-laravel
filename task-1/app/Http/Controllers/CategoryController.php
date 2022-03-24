@@ -12,6 +12,12 @@ class CategoryController extends Controller
         return view('add-category-form');
     }
 
+    public function displayCategories()
+    {
+        $categories = new Category();
+        return view('categories', ['categories' => $categories->getAllCategories()]);
+    }
+
     public function insertCategory(Request $request)
     {
         $request->validate([
@@ -24,7 +30,7 @@ class CategoryController extends Controller
 
         if ($request->file('image')) {
             $imagePath = $request->file('image');
-            $imageName = $imagePath->getClientOriginalName();
+            $imageName =  str_replace(" ","-", $imagePath->getClientOriginalName());
             $path = $request->file('image')->storeAs('uploads', $imageName, 'public');
             $category->image = '/storage/' . $path;
         }

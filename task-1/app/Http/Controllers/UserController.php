@@ -17,6 +17,17 @@ class UserController extends Controller
         return view('add-user-form');
     }
 
+    public function users()
+    {
+        return view('users');
+    }
+
+    public function displayUsers()
+    {
+        $user = new User();
+        return view('users', ['users' => $user->getAllUsers()]);
+    }
+
     public function insertUser(Request $request)
     {
        $user = new User();
@@ -37,6 +48,6 @@ class UserController extends Controller
        $user->phone_number = $request->phone_number;
 
        $user->save();
-       return redirect('add-user-form')->with('status', 'now you are registered!');
+       return redirect('users')->with('status', 'User registered successfully!');
     }
 }
