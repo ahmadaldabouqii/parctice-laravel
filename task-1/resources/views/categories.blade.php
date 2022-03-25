@@ -23,33 +23,33 @@
     }
 </style>
 <body>
-<div class="container mt-4">
-    <div class="card">
-        @if(session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
+    <div class="container mt-4">
+        <div class="card">
+            @if(session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
+            <table class="table table-hover">
+                <thead>
+                <th>Category Image</th>
+                <th>Category Name</th>
+                <th>Is Active</th>
+                </thead>
+                <tbody>
+                    @foreach($categories as $category)
+                        <tr>
+                            <td><img style="max-width:20%" alt="{{$category->name}}" src="{{ asset('storage/uploads/' . $category->image) }}"/></td>
+                            <td>{{$category->name}}</td>
+                            <td>{{$category->is_active}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div>
+                <a class="btn btn-success float-right" href="/add-user-form">Add User</a>
             </div>
-        @endif
-        <table class="table table-hover">
-            <thead>
-            <th>Category Image</th>
-            <th>Category Name</th>
-            <th>Is Active</th>
-            </thead>
-            <tbody>
-            @foreach($categories as $category)
-                <tr>
-                    <td><img alt="cat" src="{{ asset($category->image) }}"/></td>
-                    <td>{{$category->name}}</td>
-                    <td>{{$category->is_active}}</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-        <div>
-            <a class="btn btn-success float-right" href="/add-user-form">Add User</a>
         </div>
     </div>
-</div>
 </body>
 </html>

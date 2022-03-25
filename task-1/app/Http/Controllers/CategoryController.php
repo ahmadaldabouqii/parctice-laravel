@@ -29,10 +29,11 @@ class CategoryController extends Controller
         $category = new Category();
 
         if ($request->file('image')) {
-            $imagePath = $request->file('image');
-            $imageName =  str_replace(" ","-", $imagePath->getClientOriginalName());
-            $path = $request->file('image')->storeAs('uploads', $imageName, 'public');
-            $category->image = '/storage/' . $path;
+            $image = $request->file('image');
+            $input['image'] = str_replace(" ", "-", $image->getClientOriginalName());
+            $destinationPath = public_path('storage/uploads');
+            $image->move($destinationPath, $input['image']);
+            $category->image = $input['image'];
         }
 
         $category->name = $request->name;
