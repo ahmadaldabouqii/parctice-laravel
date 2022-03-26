@@ -1,4 +1,4 @@
-@include('form-header')
+@include('layouts.form-header')
     <div class="container mt-4">
         @if(session('status'))
             <div class="alert alert-success">

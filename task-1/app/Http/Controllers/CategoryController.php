@@ -20,22 +20,20 @@ class CategoryController extends Controller
 
     public function insertCategory(Request $request)
     {
+        $category = new Category();
+
         $request->validate([
             "image"        => "required|image|mimes:jpg,png,jpeg,gif,svg|max:2048",
             "name"         => "required|min:2|max:20",
             "is_active"    => "required",
         ]);
 
-        $category = new Category();
+        $image = $request->file('image');
+        $input['image'] = str_replace(" ", "-", $image->getClientOriginalName());
+        $destinationPath = public_path('storage/uploads');
+        $image->move($destinationPath, $input['image']);
 
-        if ($request->file('image')) {
-            $image = $request->file('image');
-            $input['image'] = str_replace(" ", "-", $image->getClientOriginalName());
-            $destinationPath = public_path('storage/uploads');
-            $image->move($destinationPath, $input['image']);
-            $category->image = $input['image'];
-        }
-
+        $category->image = $input['image'];
         $category->name = $request->name;
         $category->is_active = $request->is_active;
         $category->save();

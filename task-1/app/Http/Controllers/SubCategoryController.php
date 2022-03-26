@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,19 +14,25 @@ class SubCategoryController extends Controller
         return view('add-sub-category', ['categories' => $categories]);
     }
 
+    public function displaySubCategories()
+    {
+        $sub_categories = new SubCategory();
+        return view('sub-categories', ['sub_categories' => $sub_categories->getAllSubCategories()]);
+    }
+
     public function insertSubCategory(Request $request)
     {
+        $subCategory = new SubCategory();
+
         $request->validate([
-            "category_id"  => "required|exists:sub_categories",
+            "category_id"  => "exists:sub_categories",
             "name"         => "required",
             "is_active"    => "required",
         ]);
 
-        $subCategory = new SubCategory();
         $subCategory->name = $request->name;
         $subCategory->category_id = $request->category_id;
         $subCategory->is_active = $request->is_active;
-
         $subCategory->save();
 
         return redirect('add-sub-category')->with('status','Sub category added!');

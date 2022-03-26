@@ -22,5 +22,6 @@ Route::get('add-category', [CategoryController::class, 'addCategory']);
 Route::post('insert-category', [CategoryController::class, 'insertCategory']);
 Route::get('add-sub-category', [SubCategoryController::class, 'index']);
 Route::post('insert-sub-category', [SubCategoryController::class, 'insertSubCategory']);
+Route::get('sub-categories', [SubCategoryController::class, 'displaySubCategories']);
 Route::get('users', [UserController::class, 'displayUsers']);
 Route::get('categories',[CategoryController::class, 'displayCategories']);
