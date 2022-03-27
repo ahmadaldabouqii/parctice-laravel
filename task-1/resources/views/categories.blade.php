@@ -3,7 +3,7 @@
     <thead>
     <th>Category Image</th>
     <th>Category Name</th>
-    <th>Is Active</th>
+    <th>Status</th>
     </thead>
     <tbody>
         @foreach($categories as $category)
@@ -14,7 +14,11 @@
                     />
                 </td>
                 <td>{{$category->name}}</td>
-                <td>{{$category->is_active}}</td>
+                @if($category->is_active)
+                    <td class="status"><span class="active">Active</span></td>
+                @else
+                    <td class="status"><span class="waiting">offline</span></td>
+                @endif
             </tr>
         @endforeach
     </tbody>

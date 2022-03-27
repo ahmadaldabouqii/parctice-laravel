@@ -2,13 +2,17 @@
 <table class="table table-hover">
     <thead>
         <th>Sub Category Name</th>
-        <th>Is Active</th>
+        <th>Status</th>
     </thead>
     <tbody>
         @foreach($sub_categories as $subCategory)
             <tr>
                 <td>{{$subCategory->name}}</td>
-                <td>{{$subCategory->is_active}}</td>
+                @if($subCategory->is_active)
+                    <td class="status"><span class="active">Active</span></td>
+                @else
+                    <td class="status"><span class="waiting">offline</span></td>
+                @endif
             </tr>
         @endforeach
     </tbody>

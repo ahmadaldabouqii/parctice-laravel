@@ -25,7 +25,8 @@ class SubCategoryController extends Controller
         $subCategory = new SubCategory();
 
         $request->validate([
-            "category_id"  => "exists:sub_categories",
+            "id"  => "exists:categories",
+            "category_id" => "exists:sub_categories",
             "name"         => "required",
             "is_active"    => "required",
         ]);
