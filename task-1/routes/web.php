@@ -25,3 +25,6 @@ Route::post('insert-sub-category', [SubCategoryController::class, 'insertSubCate
 Route::get('sub-categories', [SubCategoryController::class, 'displaySubCategories']);
 Route::get('users', [UserController::class, 'displayUsers']);
 Route::get('categories',[CategoryController::class, 'displayCategories']);
+Route::post('{user}/deleteUser', [UserController::class , "destroy"])->name("deleteUser");
+Route::get('edit-user/{id}', [UserController::class, 'edit']);
+Route::put('update-user/{id}', [UserController::class, 'update']);

@@ -7,16 +7,30 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
+use Eloquent;
+/**
+ * User
+ *
+ * @mixin Eloquent
+ */
 
 class User extends Authenticatable
 {
+
     use HasApiTokens, HasFactory, Notifiable;
     public array $users = [];
+    public string $user = "";
+
 
     public function getAllUsers()
     {
         $this->users = DB::table('users')->get()->toArray();
         return $this->users;
+    }
+
+    public function getUserById($id)
+    {
+
     }
     /**
      * The attributes that are mass assignable.

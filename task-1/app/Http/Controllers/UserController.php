@@ -9,7 +9,8 @@ class UserController extends Controller
 {
     public function welcome()
     {
-        return view('welcome');
+        $title = 'Home';
+        return view('welcome', ['title' => $title]);
     }
 
     public function index()
@@ -22,10 +23,34 @@ class UserController extends Controller
         return view('users');
     }
 
+    public function edit($id)
+    {
+        $user = new User;
+        $userID = $user->find($id);
+        return view('edit-user', ['user' => $userID]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $userID = new User;
+        $user = $userID->find($id);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->phone_number = $request->input('phone_number');
+        $user->update();
+        return redirect('users')->with('status', 'user updated successfully');
+    }
+
     public function displayUsers()
     {
         $user = new User();
         return view('users', ['users' => $user->getAllUsers()]);
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect('users')->with('status', 'User removed successfully!');
     }
 
     public function insertUser(Request $request)

@@ -36,6 +36,6 @@ class SubCategoryController extends Controller
         $subCategory->is_active = $request->is_active;
         $subCategory->save();
 
-        return redirect('add-sub-category')->with('status','Sub category added!');
+        return redirect('sub-categories')->with('status','Sub category added!');
     }
 }

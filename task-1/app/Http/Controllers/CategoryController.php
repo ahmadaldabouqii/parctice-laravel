@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Image;
+use Eloquent;
+/**
+ * SubCategory
+ *
+ * @mixin Eloquent
+ */
 
 class CategoryController extends Controller
 {
@@ -39,6 +44,6 @@ class CategoryController extends Controller
         $category->is_active = $request->is_active;
         $category->save();
 
-        return redirect('add-category')->with('status','category added!');
+        return redirect('categories')->with('status','category added!');
     }
 }
