@@ -1,3 +1,4 @@
+@include('sweetalert::alert')
 @include('layouts.table-head')
 <table class="table table-hover">
     <thead>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SubCategoryController extends Controller
 {
@@ -36,6 +37,7 @@ class SubCategoryController extends Controller
         $subCategory->is_active = $request->is_active;
         $subCategory->save();
 
-        return redirect('sub-categories')->with('status','Sub category added!');
+        Alert::success('Added!', 'Sub category added successfully!');
+        return redirect('sub-categories');
     }
 }

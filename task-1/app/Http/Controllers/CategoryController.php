@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Eloquent;
+use RealRashid\SweetAlert\Facades\Alert;
+
 /**
- * SubCategory
+ * Category
  *
  * @mixin Eloquent
  */
@@ -44,6 +46,7 @@ class CategoryController extends Controller
         $category->is_active = $request->is_active;
         $category->save();
 
-        return redirect('categories')->with('status','category added!');
+        Alert::success('Updated!', 'category added successfully!');
+        return redirect('categories');
     }
 }

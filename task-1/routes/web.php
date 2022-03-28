@@ -16,15 +16,22 @@ use App\Http\Controllers\SubCategoryController;
 |
 */
 Route::get('/', [UserController::class, 'welcome']);
-Route::get('add-user-form', [UserController::class, 'index']);
+
 Route::post('register-form', [UserController::class, 'insertUser']);
-Route::get('add-category', [CategoryController::class, 'addCategory']);
-Route::post('insert-category', [CategoryController::class, 'insertCategory']);
-Route::get('add-sub-category', [SubCategoryController::class, 'index']);
-Route::post('insert-sub-category', [SubCategoryController::class, 'insertSubCategory']);
-Route::get('sub-categories', [SubCategoryController::class, 'displaySubCategories']);
+
+Route::get('add-user-form', [UserController::class, 'index']);
 Route::get('users', [UserController::class, 'displayUsers']);
-Route::get('categories',[CategoryController::class, 'displayCategories']);
 Route::post('{user}/deleteUser', [UserController::class , "destroy"])->name("deleteUser");
 Route::get('edit-user/{id}', [UserController::class, 'edit']);
 Route::put('update-user/{id}', [UserController::class, 'update']);
+
+
+Route::get('add-category', [CategoryController::class, 'addCategory']);
+Route::post('insert-category', [CategoryController::class, 'insertCategory']);
+Route::get('categories',[CategoryController::class, 'displayCategories']);
+
+Route::get('add-sub-category', [SubCategoryController::class, 'index']);
+Route::post('insert-sub-category', [SubCategoryController::class, 'insertSubCategory']);
+Route::get('sub-categories', [SubCategoryController::class, 'displaySubCategories']);
+
+

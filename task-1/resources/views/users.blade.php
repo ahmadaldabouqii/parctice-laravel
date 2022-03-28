@@ -1,6 +1,4 @@
-@section('title')
-    <title> Your Page Title Here  </title>
-@endsection
+@include('sweetalert::alert')
 @include('layouts.table-head')
 <table class="table table-hover">
     <thead>
