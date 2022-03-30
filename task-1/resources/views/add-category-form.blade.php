@@ -10,11 +10,6 @@
                     </ul>
                 </div>
             @endif
-            @if(session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
             <div class="card">
                 <div class="card-header text-center font-weight-bold">
                     Add Category

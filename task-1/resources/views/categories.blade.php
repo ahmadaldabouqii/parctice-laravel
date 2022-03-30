@@ -7,7 +7,6 @@
     <th>Status</th>
     </thead>
     <tbody>
-
         @foreach($categories as $category)
             <tr>
                 <td>

@@ -84,7 +84,7 @@ class UserController extends Controller
        $user->phone_number = $request->phone_number;
        $user->save();
 
-       Alert::success('Congrats', 'User registered successfully!');
+       Alert::success('Registered!', 'User registered successfully!');
        return redirect('users');
     }
 }

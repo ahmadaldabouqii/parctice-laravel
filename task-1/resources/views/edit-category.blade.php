@@ -1,11 +1,6 @@
 @include('sweetalert::alert')
 @include('layouts.form-header')
 <div class="container mt-4">
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -24,16 +19,17 @@
                   action="{{url('update-category/' . $category->id)}}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                <div class="mb-3">
-                    <label>Category Image</label>
-                    <input type="file" name="image" class="form-control" value="{{$category->image}}"/>
+                <img style="max-width:10%" alt="{{$category->name}}" src="{{asset('storage/uploads/' . $category->image)}}">
+                <div class="mb-3 mt-3">
+                    <label class="font-weight-bold">Category Image</label>
+                    <input type="file" name="image" class="form-control" value=""/>
                 </div>
                 <div class="form-group">
-                    <label for="name">Category Name:</label>
+                    <label for="name" class="font-weight-bold">Category Name:</label>
                     <input type="text" id="name" name="name" class="form-control" value="{{$category->name}}"/>
                 </div>
                 <div>
-                    <label class="mr-3">Is Active</label>
+                    <label class="mr-3 font-weight-bold">Is Active</label>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="is_active" id="radio" value="1" @if($category->is_active) checked @endif/>
                         <label class="form-check-label" for="is_active"> Yes </label>
