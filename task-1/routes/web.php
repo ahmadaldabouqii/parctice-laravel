@@ -25,13 +25,17 @@ Route::post('{user}/deleteUser', [UserController::class , "destroy"])->name("del
 Route::get('edit-user/{id}', [UserController::class, 'edit']);
 Route::put('update-user/{id}', [UserController::class, 'update']);
 
-
 Route::get('add-category', [CategoryController::class, 'addCategory']);
 Route::post('insert-category', [CategoryController::class, 'insertCategory']);
 Route::get('categories',[CategoryController::class, 'displayCategories']);
+Route::get('edit-category/{id}', [CategoryController::class, 'editCategory'])->name("edit-category");
+Route::put('update-category/{id}',[CategoryController::class, 'updateCategory']);
+Route::post('deleteCategory/{category}',[CategoryController::class, 'destroy'])->name("deleteCategory");
 
 Route::get('add-sub-category', [SubCategoryController::class, 'index']);
 Route::post('insert-sub-category', [SubCategoryController::class, 'insertSubCategory']);
 Route::get('sub-categories', [SubCategoryController::class, 'displaySubCategories']);
 
-
+Route::get('edit-sub-category/{id}', [SubCategoryController::class, 'editSubCategory'])->name('editSubCategory');
+Route::post('deleteSubCategory/{subCategory}',[SubCategoryController::class, 'deleteSubCategory'])->name('deleteSubCategory');
+Route::put('update-sub-category/{id}', [SubCategoryController::class, 'updateSubCategory']);

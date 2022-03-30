@@ -26,8 +26,7 @@ class SubCategoryController extends Controller
         $subCategory = new SubCategory();
 
         $request->validate([
-            "id"  => "exists:categories",
-            "category_id" => "exists:sub_categories",
+            "id" => "exists:categories",
             "name"         => "required",
             "is_active"    => "required",
         ]);
@@ -38,6 +37,40 @@ class SubCategoryController extends Controller
         $subCategory->save();
 
         Alert::success('Added!', 'Sub category added successfully!');
+        return redirect('sub-categories');
+    }
+
+    public function editSubCategory($id)
+    {
+        $categories = DB::table('categories')->get()->all();
+        $subCategory = SubCategory::find($id);
+        return view('edit-sub-category', [
+            'subCategory' => $subCategory,
+            'categories' => $categories
+        ]);
+    }
+
+    public function updateSubCategory(Request $request, $id)
+    {
+        $request->validate([
+            "id" => "exists:categories",
+            "name"         => "required",
+            "is_active"    => "required",
+        ]);
+
+        $subCategory = SubCategory::findOrFail($id);
+        $subCategory->name = $request->input('name');
+        $subCategory->is_active = $request->is_active;
+
+        $subCategory->update();
+        Alert::success("Updated!", "Sub category updated successfully!");
+        return redirect("sub-categories");
+    }
+
+    public function deleteSubCategory(SubCategory $subCategory)
+    {
+        $subCategory->delete();
+        Alert::success('Deleted!', "Sub category deleted successfully!");
         return redirect('sub-categories');
     }
 }

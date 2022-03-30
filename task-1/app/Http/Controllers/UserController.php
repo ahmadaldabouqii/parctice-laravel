@@ -59,7 +59,7 @@ class UserController extends Controller
     {
         $user->delete();
         Alert::success('Deleted', 'User removed successfully!');
-        return redirect('users')->with('status', 'User removed successfully!');
+        return redirect('users');
     }
 
     public function insertUser(Request $request)
@@ -82,8 +82,8 @@ class UserController extends Controller
        $user->email = $request->email;
        $user->password = bcrypt($request->password);
        $user->phone_number = $request->phone_number;
-
        $user->save();
+
        Alert::success('Congrats', 'User registered successfully!');
        return redirect('users');
     }

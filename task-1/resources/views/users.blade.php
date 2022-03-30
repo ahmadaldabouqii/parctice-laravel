@@ -23,15 +23,13 @@
             </td>
         </tr>
     @endforeach
-
     </tbody>
-
 </table>
 @if(!$users)
-    <h4 class="text-center mt-3 mb-3">There is no user registered yet!</h4>
+    <h3 class="text-center mt-3 mb-3">There is no user registered yet!</h3>
 @endif
 <div>
-    <a class="btn btn-success float-right" href="/add-user-form">Add User</a>
+    <a class="btn btn-success float-right mb-2 mr-2" href="/add-user-form">Add User</a>
 </div>
 </div>
 </div>
