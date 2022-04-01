@@ -23,19 +23,19 @@ class UserController extends Controller
 
     public function index()
     {
-        return view("add-user-form");
+        return view("user-views.add-user-form");
     }
 
     public function users()
     {
-        return view("users");
+        return view("user-views.users");
     }
 
     public function edit($id)
     {
         $user = new User;
         $userID = $user->findOrFail($id);
-        return view("edit-user", ["user" => $userID]);
+        return view("user-views.edit-user", ["user" => $userID]);
     }
 
     public function update(Request $request, $id)
@@ -61,7 +61,7 @@ class UserController extends Controller
     public function displayUsers()
     {
         $user = new User();
-        return view("users", ["users" => $user->getAllUsers()]);
+        return view("user-views.users", ["users" => $user->getAllUsers()]);
     }
 
     public function destroy(User $user)

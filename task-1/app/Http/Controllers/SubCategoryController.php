@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,14 +19,14 @@ class SubCategoryController extends Controller
     public function index()
     {
         $categories = DB::table("categories")->get()->toArray();
-        return view("add-sub-category", ["categories" => $categories]);
+        return view("subCategory-views.add-sub-category", ["categories" => $categories]);
     }
 
     public function displaySubCategories()
     {
         $categories = DB::table("categories")->get(["id", "name"]);
         $sub_categories = new SubCategory();
-        return view("sub-categories", [
+        return view("subCategory-views.sub-categories", [
             "sub_categories" => $sub_categories->getAllSubCategories(),
             "categories" => $categories
         ]);
@@ -34,9 +35,19 @@ class SubCategoryController extends Controller
     public function insertSubCategory(Request $request)
     {
         $subCategory = new SubCategory();
+        $categoryModel = new Category();
+        $categories = $categoryModel->getAllCategories();
+
+        foreach ($categories as $category){
+            if(!$request->category_id ||!$category->id || $category->id !== $request->category_id){
+                Alert::error("Oops!!", "You need to select category!");
+                return redirect()->route("subCategory.add-sub-category");
+            }
+        }
 
         $request->validate([
-            "id" => "exists:categories",
+            "id"           => "exists:categories",
+            "category_id"  => "exists:sub_categories",
             "name"         => "required",
             "is_active"    => "required",
         ]);
@@ -54,7 +65,7 @@ class SubCategoryController extends Controller
     {
         $categories = DB::table("categories")->get()->all();
         $subCategory = SubCategory::find($id);
-        return view("edit-sub-category", [
+        return view("subCategory-views.edit-sub-category", [
             "subCategory" => $subCategory,
             "categories" => $categories
         ]);

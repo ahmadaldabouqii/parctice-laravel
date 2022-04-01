@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use File;
 use Illuminate\Http\Request;
 use Eloquent;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -17,20 +18,20 @@ class CategoryController extends Controller
 {
     public function addCategory()
     {
-        return view("add-category-form");
+        return view("category-views.add-category-form");
     }
 
     public function displayCategories()
     {
         $categories = new Category();
-        return view("categories", ["categories" => $categories->getAllCategories()]);
+        return view("category-views.categories", ["categories" => $categories->getAllCategories()]);
     }
 
     public function editCategory($id)
     {
         $categoryID = new Category();
         $category = $categoryID->find($id);
-        return view("edit-category", ["category" => $category]);
+        return view("category-views.edit-category", ["category" => $category]);
     }
 
     public function insertCategory(Request $request)
@@ -69,10 +70,10 @@ class CategoryController extends Controller
 
         if($request->hasFile("image")) {
             if ($category->image)
-                $oldImage = unlink(public_path("storage/uploads/" . strtolower($category->image)));
+                unlink(public_path("storage/uploads/" . strtolower($category->image)));
 
             $input["image"] = strtolower(str_replace(" ", "-", $request->file("image")->getClientOriginalName()));
-            $image = $request->file("image")->move(public_path("storage/uploads"), $input["image"]);
+            $request->file("image")->move(public_path("storage/uploads"), $input["image"]);
             $category->image = $input["image"];
         }
 
@@ -87,10 +88,10 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        $removeLocalImage = unlink(public_path("storage/uploads/" . strtolower($category->image)));
+        unlink(public_path("storage/uploads/" . strtolower($category->image)));
 
         if(!$category->getAllCategories()) {
-           \File::deleteDirectory(public_path("storage"));
+           File::deleteDirectory(public_path("storage"));
         }
 
         Alert::success("Deleted!", "Category deleted successfully!");
