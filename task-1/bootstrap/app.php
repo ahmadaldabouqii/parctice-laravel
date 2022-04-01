@@ -52,5 +52,5 @@ $app->singleton(
 |
 */
 
-@include('../resources/views/layouts/app.blade.php');
+//@include('../resources/views/layouts/master.blade.php');
 return $app;

@@ -3,31 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 Use RealRashid\SweetAlert\Facades\Alert;
+use Eloquent;
+
+/**
+ * User
+ *
+ * @mixin Eloquent
+ */
 
 class UserController extends Controller
 {
     public function welcome()
     {
-        return view('welcome');
+        return view("welcome");
     }
 
     public function index()
     {
-        return view('add-user-form');
+        return view("add-user-form");
     }
 
     public function users()
     {
-        return view('users');
+        return view("users");
     }
 
     public function edit($id)
     {
         $user = new User;
-        $userID = $user->find($id);
-        return view('edit-user', ['user' => $userID]);
+        $userID = $user->findOrFail($id);
+        return view("edit-user", ["user" => $userID]);
     }
 
     public function update(Request $request, $id)
@@ -40,26 +48,27 @@ class UserController extends Controller
             "phone_number" => "required|digits:10"
         ]);
 
-        $user = $userID->find($id);
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->phone_number = $request->input('phone_number');
+        $user = $userID->findOrFail($id);
+        $user->name = $request->input("name");
+        $user->email = $request->input("email");
+        $user->phone_number = $request->input("phone_number");
         $user->update();
-        Alert::success('Updated!', 'user updated successfully!');
-        return redirect('users');
+
+        Alert::success("Updated!", "user updated successfully!");
+        return redirect()->route("user.users");
     }
 
     public function displayUsers()
     {
         $user = new User();
-        return view('users', ['users' => $user->getAllUsers()]);
+        return view("users", ["users" => $user->getAllUsers()]);
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        Alert::success('Deleted', 'User removed successfully!');
-        return redirect('users');
+        Alert::success("Deleted!", "User Deleted successfully!");
+        return redirect()->route("user.users");
     }
 
     public function insertUser(Request $request)
@@ -73,9 +82,9 @@ class UserController extends Controller
            "phone_number" => "required|digits:10"
        ]);
 
-       if ($request->password !== $request->password_confirmation){
-           Alert::error('Something Wrong', 'Password not match!');
-           return redirect("add-user-form");
+       if ($request->password !== $request->password_confirmation)  {
+           Alert::error("Something Wrong!", "Password not match!");
+           return redirect()->route("user.add_user_form");
        }
 
        $user->name = $request->name;
@@ -84,7 +93,7 @@ class UserController extends Controller
        $user->phone_number = $request->phone_number;
        $user->save();
 
-       Alert::success('Registered!', 'User registered successfully!');
-       return redirect('users');
+       Alert::success("Registered!", "User registered successfully!");
+       return redirect()->route("user.users");
     }
 }

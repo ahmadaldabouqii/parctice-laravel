@@ -6,19 +6,29 @@ use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
+use Eloquent;
 
+/**
+ * SubCategory
+ *
+ * @mixin Eloquent
+ */
 class SubCategoryController extends Controller
 {
     public function index()
     {
-        $categories = DB::table('categories')->get()->toArray();
-        return view('add-sub-category', ['categories' => $categories]);
+        $categories = DB::table("categories")->get()->toArray();
+        return view("add-sub-category", ["categories" => $categories]);
     }
 
     public function displaySubCategories()
     {
+        $categories = DB::table("categories")->get(["id", "name"]);
         $sub_categories = new SubCategory();
-        return view('sub-categories', ['sub_categories' => $sub_categories->getAllSubCategories()]);
+        return view("sub-categories", [
+            "sub_categories" => $sub_categories->getAllSubCategories(),
+            "categories" => $categories
+        ]);
     }
 
     public function insertSubCategory(Request $request)
@@ -36,41 +46,41 @@ class SubCategoryController extends Controller
         $subCategory->is_active = $request->is_active;
         $subCategory->save();
 
-        Alert::success('Added!', 'Sub category added successfully!');
-        return redirect('sub-categories');
+        Alert::success("Added!", "Sub category added successfully!");
+        return redirect()->route("subCategory.sub-categories");
     }
 
     public function editSubCategory($id)
     {
-        $categories = DB::table('categories')->get()->all();
+        $categories = DB::table("categories")->get()->all();
         $subCategory = SubCategory::find($id);
-        return view('edit-sub-category', [
-            'subCategory' => $subCategory,
-            'categories' => $categories
+        return view("edit-sub-category", [
+            "subCategory" => $subCategory,
+            "categories" => $categories
         ]);
     }
 
-    public function updateSubCategory(Request $request, $id)
+    public function updateSubCategory(Request $request, SubCategory $sub_category)
     {
         $request->validate([
-            "id" => "exists:categories",
+            "category_id" => "exists:categories,id",
             "name"         => "required",
             "is_active"    => "required",
         ]);
 
-        $subCategory = SubCategory::findOrFail($id);
-        $subCategory->name = $request->input('name');
-        $subCategory->is_active = $request->is_active;
+        $sub_category->name = $request->input("name");
+        $sub_category->category_id = $request->get("category_id");
+        $sub_category->is_active = $request->is_active;
 
-        $subCategory->update();
+        $sub_category->save();
         Alert::success("Updated!", "Sub category updated successfully!");
-        return redirect("sub-categories");
+        return redirect()->route("subCategory.sub-categories");
     }
 
     public function deleteSubCategory(SubCategory $subCategory)
     {
         $subCategory->delete();
-        Alert::success('Deleted!', "Sub category deleted successfully!");
-        return redirect('sub-categories');
+        Alert::success("Deleted!", "Sub category deleted successfully!");
+        return redirect()->route("subCategory.sub-categories");
     }
 }

@@ -1,22 +1,13 @@
-@include('sweetalert::alert')
-@include('layouts.form-header')
-<div class="container mt-4">
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li style="list-style-type: none">{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+@extends("layouts.master")
+@section("title", "edit category")
+@section("content")
     <div class="card">
         <div class="card-header text-center font-weight-bold">
             Edit Category
         </div>
         <div class="card-body">
             <form name="update-user" id="update-user" method="post"
-                  action="{{url('update-category/' . $category->id)}}" enctype="multipart/form-data">
+                  action="{{route('category.update-category', $category->id)}}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <img style="max-width:10%" alt="{{$category->name}}" src="{{asset('storage/uploads/' . $category->image)}}">
@@ -43,6 +34,4 @@
             </form>
         </div>
     </div>
-</div>
-</body>
-</html>
+@endsection

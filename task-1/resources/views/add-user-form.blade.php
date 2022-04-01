@@ -1,21 +1,12 @@
-@include('sweetalert::alert')
-@include('layouts.form-header')
-    <div class="container mt-4">
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li style="list-style-type: none">{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+@extends("layouts.master")
+@section("title", "add user")
+@section("content")
         <div class="card">
             <div class="card-header text-center font-weight-bold">
                 Register as a user
             </div>
             <div class="card-body">
-                <form name="add-blog-post-form" id="add-blog-post-form" method="post" action="{{url('register-form')}}">
+                <form name="add-blog-post-form" id="add-blog-post-form" method="post" action="{{route('user.register-form')}}">
                     @csrf
                     <div class="form-group">
                         <label for="name">Name:</label>
@@ -41,6 +32,4 @@
                 </form>
             </div>
         </div>
-    </div>
-    </body>
-</html>
+@endsection

@@ -1,3 +1,5 @@
-@include('sweetalert::alert')
-@include('layouts/form-header')
-<h1>Welcome</h1>
+@extends("layouts.master")
+@section("title","welcome")
+@section("content")
+    <h1>Welcome</h1>
+@endsection
