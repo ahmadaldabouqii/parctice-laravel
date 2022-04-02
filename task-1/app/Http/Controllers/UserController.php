@@ -21,9 +21,11 @@ class UserController extends Controller
     {
         $categories = Category::getAllCategories();
         $sub_categories = SubCategory::getAllSubCategories();
+        $users = User::getAllUsers();
 
         return view("welcome",
             [
+                "users" => $users,
                 "categories" => $categories,
                 "sub_categories" => $sub_categories
             ]

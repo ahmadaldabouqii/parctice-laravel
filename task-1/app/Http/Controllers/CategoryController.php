@@ -12,7 +12,7 @@ use RealRashid\SweetAlert\Facades\Alert;
  * Category
  *
  * @mixin Eloquent
- */
+*/
 
 class CategoryController extends Controller
 {

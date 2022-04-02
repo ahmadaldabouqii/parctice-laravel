@@ -13,7 +13,8 @@ use Eloquent;
  * SubCategory
  *
  * @mixin Eloquent
- */
+*/
+
 class SubCategoryController extends Controller
 {
     public function index()
