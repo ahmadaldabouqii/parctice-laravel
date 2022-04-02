@@ -35,19 +35,14 @@ class SubCategoryController extends Controller
     public function insertSubCategory(Request $request)
     {
         $subCategory = new SubCategory();
-        $categoryModel = new Category();
-        $categories = $categoryModel->getAllCategories();
 
-        foreach ($categories as $category){
-            if(!$request->category_id ||!$category->id || $category->id !== $request->category_id){
-                Alert::error("Oops!!", "You need to select category!");
-                return redirect()->route("subCategory.add-sub-category");
-            }
+        if(!$request->category_id){
+            Alert::error("Oops!!", "You need to select category!");
+            return redirect()->route("subCategory.add-sub-category");
         }
 
         $request->validate([
             "id"           => "exists:categories",
-            "category_id"  => "exists:sub_categories",
             "name"         => "required",
             "is_active"    => "required",
         ]);

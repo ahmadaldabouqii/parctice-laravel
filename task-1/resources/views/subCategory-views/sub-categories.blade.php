@@ -22,8 +22,8 @@
                             <td class="status"><span class="waiting">offline</span></td>
                         @endif
                         <td>
-                            <a href="{{route('subCategory.edit-sub-category', $subCategory->id)}}" class="btn btn-primary btn-sm">Edit</a>
-                            <form method="post" action="{{route('sub-category.deleteSubCategory', $subCategory->id)}}" style="display: inline-block;">
+                            <a href="{{route('subCategory.editSubCategory', $subCategory->id)}}" class="btn btn-primary btn-sm">Edit</a>
+                            <form method="post" action="{{route('subCategory.deleteSubCategory', $subCategory->id)}}" style="display: inline-block;">
                                 @method('post')
                                 @csrf
                                 <button class="show-alert-delete-box btn btn-danger btn-sm" data-name="Sub category" type="submit">Delete</button>

@@ -45,9 +45,12 @@ class CategoryController extends Controller
         ]);
 
         $image = $request->file("image");
-        $input['image'] = str_replace(" ", "-", $image->getClientOriginalName());
+        $input['image'] = strtolower(str_replace(" ", "-", $image->getClientOriginalName()));
         $destinationPath = public_path("storage/uploads");
-        $image->move($destinationPath, strtolower($input["image"]));
+
+        if(!file_exists(public_path("storage/uploads/" . $input['image']))) {
+            $image->move($destinationPath, $input["image"]);
+        }
 
         $category->image = $input['image'];
         $category->name = $request->name;
@@ -61,6 +64,7 @@ class CategoryController extends Controller
     public function updateCategory(Request $request, $id)
     {
         $category = Category::findOrFail($id);
+        $categories = $category->getAllCategories();
 
         $request->validate([
             "image"        => "nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048",
@@ -69,8 +73,11 @@ class CategoryController extends Controller
         ]);
 
         if($request->hasFile("image")) {
-            if ($category->image)
-                unlink(public_path("storage/uploads/" . strtolower($category->image)));
+            foreach ($categories as $cloudCategory){
+                if(!$cloudCategory->image === $category->image){
+                    unlink(public_path("storage/uploads/" . strtolower($category->image)));
+                }
+            }
 
             $input["image"] = strtolower(str_replace(" ", "-", $request->file("image")->getClientOriginalName()));
             $request->file("image")->move(public_path("storage/uploads"), $input["image"]);
@@ -87,12 +94,19 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        $category->delete();
-        unlink(public_path("storage/uploads/" . strtolower($category->image)));
+        $categories = $category->getAllCategories();
 
-        if(!$category->getAllCategories()) {
-           File::deleteDirectory(public_path("storage"));
+        foreach ($categories as $cloudCategory){
+            if(!$cloudCategory->image === $category->image){
+                unlink(public_path("storage/uploads/" . strtolower($category->image)));
+            }
         }
+
+        if(!$categories) {
+           File::deleteDirectory(public_path("storage/uploads"));
+        }
+
+        $category->delete();
 
         Alert::success("Deleted!", "Category deleted successfully!");
         return redirect()->route("category.categories");
