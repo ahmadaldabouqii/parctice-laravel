@@ -17,7 +17,7 @@ use Eloquent;
 
 class UserController extends Controller
 {
-    public function welcome()
+    public function welcome(Request $request)
     {
         $categories = Category::getAllCategories();
         $sub_categories = SubCategory::getAllSubCategories();

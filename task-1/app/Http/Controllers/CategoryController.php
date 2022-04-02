@@ -92,7 +92,7 @@ class CategoryController extends Controller
         return redirect()->route("category.categories");
     }
 
-    public function destroy(Category $category)
+    public function destroy(Request $request, Category $category)
     {
         $category->delete();
         $categories = Category::getAllCategories();
@@ -108,6 +108,9 @@ class CategoryController extends Controller
         }
 
         Alert::success("Deleted!", "Category deleted successfully!");
+
+        if(request()->route()->uri === "/")
+            return redirect()->route("/");
         return redirect()->route("category.categories");
     }
 }
