@@ -3,7 +3,7 @@
 @section("content")
     <div class="container mt-4">
         <div class="card">
-            <table class="table table-hover">
+            <table class="table table-hover ">
                 <thead>
                     <th>Category Image</th>
                     <th>Category Name</th>

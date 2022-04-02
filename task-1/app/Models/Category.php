@@ -15,11 +15,9 @@ use Eloquent;
 
 class Category extends Model {
     use HasFactory;
-    public array $categories = [];
 
-    public function getAllCategories()
+    public static function getAllCategories()
     {
-        $this->categories = DB::table('categories')->get()->toArray();
-        return $this->categories;
+        return DB::table('categories')->get()->toArray();
     }
 }

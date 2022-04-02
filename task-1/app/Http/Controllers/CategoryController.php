@@ -24,7 +24,7 @@ class CategoryController extends Controller
     public function displayCategories()
     {
         $categories = new Category();
-        return view("category-views.categories", ["categories" => $categories->getAllCategories()]);
+        return view("category-views.categories", ["categories" => Category::getAllCategories()]);
     }
 
     public function editCategory($id)
@@ -64,7 +64,7 @@ class CategoryController extends Controller
     public function updateCategory(Request $request, $id)
     {
         $category = Category::findOrFail($id);
-        $categories = $category->getAllCategories();
+        $categories = Category::getAllCategories();
 
         $request->validate([
             "image"        => "nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048",
@@ -94,19 +94,18 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        $categories = $category->getAllCategories();
+        $category->delete();
+        $categories = Category::getAllCategories();
+
+        if(!$categories) {
+            File::cleanDirectory(public_path("storage/uploads"));
+        }
 
         foreach ($categories as $cloudCategory){
             if(!$cloudCategory->image === $category->image){
                 unlink(public_path("storage/uploads/" . strtolower($category->image)));
             }
         }
-
-        if(!$categories) {
-           File::deleteDirectory(public_path("storage/uploads"));
-        }
-
-        $category->delete();
 
         Alert::success("Deleted!", "Category deleted successfully!");
         return redirect()->route("category.categories");

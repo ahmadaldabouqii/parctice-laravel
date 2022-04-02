@@ -16,22 +16,13 @@ use Eloquent;
 
 class User extends Authenticatable
 {
-
     use HasApiTokens, HasFactory, Notifiable;
-    public array $users = [];
-    public string $user = "";
 
-
-    public function getAllUsers()
+    public static function getAllUsers()
     {
-        $this->users = DB::table('users')->get()->toArray();
-        return $this->users;
+        return DB::table('users')->get()->toArray();
     }
 
-    public function getUserById($id)
-    {
-
-    }
     /**
      * The attributes that are mass assignable.
      *

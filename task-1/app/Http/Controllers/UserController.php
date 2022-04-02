@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 Use RealRashid\SweetAlert\Facades\Alert;
 use Eloquent;
@@ -18,7 +19,15 @@ class UserController extends Controller
 {
     public function welcome()
     {
-        return view("welcome");
+        $categories = Category::getAllCategories();
+        $sub_categories = SubCategory::getAllSubCategories();
+
+        return view("welcome",
+            [
+                "categories" => $categories,
+                "sub_categories" => $sub_categories
+            ]
+        );
     }
 
     public function index()
@@ -60,8 +69,7 @@ class UserController extends Controller
 
     public function displayUsers()
     {
-        $user = new User();
-        return view("user-views.users", ["users" => $user->getAllUsers()]);
+        return view("user-views.users", ["users" => User::getAllUsers()]);
     }
 
     public function destroy(User $user)

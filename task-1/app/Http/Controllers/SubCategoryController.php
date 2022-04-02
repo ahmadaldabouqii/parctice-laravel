@@ -27,7 +27,7 @@ class SubCategoryController extends Controller
         $categories = DB::table("categories")->get(["id", "name"]);
         $sub_categories = new SubCategory();
         return view("subCategory-views.sub-categories", [
-            "sub_categories" => $sub_categories->getAllSubCategories(),
+            "sub_categories" => SubCategory::getAllSubCategories(),
             "categories" => $categories
         ]);
     }
