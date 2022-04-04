@@ -11,7 +11,8 @@
             <tr>
                 <td>{{$subCategory->name}}</td>
                 @foreach($categories as $category)
-                    @if($subCategory->category_id === $category->id)<td> {{$category->name}}</td> @endif
+                    @if($subCategory->category_id === $category->id)
+                        <td> {{$category->name}}</td> @endif
                 @endforeach
                 @if($subCategory->is_active)
                     <td class="status"><span class="active">Active</span></td>
@@ -20,10 +21,13 @@
                 @endif
                 <td>
                     <a href="{{route('subCategory.editSubCategory', $subCategory->id)}}" class="btn btn-primary btn-sm">Edit</a>
-                    <form method="post" action="{{route('subCategory.deleteSubCategory', $subCategory->id)}}" style="display: inline-block;">
+                    <form method="post" action="{{route('subCategory.deleteSubCategory', $subCategory->id)}}"
+                          style="display: inline-block;">
                         @method('post')
                         @csrf
-                        <button class="show-alert-delete-box btn btn-danger btn-sm" data-name="Sub category" type="submit">Delete</button>
+                        <button class="show-alert-delete-box btn btn-danger btn-sm" data-name="Sub category"
+                                type="submit">Delete
+                        </button>
                     </form>
                 </td>
             </tr>
@@ -34,6 +38,7 @@
         <h3 class="text-center mt-3 mb-3">There is no sub category yet!</h3>
     @endif
     <div>
-        <a class="btn btn-success float-right mb-2 mr-2" href="{{route('subCategory.add-sub-category')}}">Add new sub category</a>
+        <a class="btn btn-success float-right mb-2 mr-2" href="{{route('subCategory.add-sub-category')}}">Add new sub
+            category</a>
     </div>
 </div>

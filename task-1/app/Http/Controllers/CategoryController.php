@@ -94,6 +94,7 @@ class CategoryController extends Controller
 
     public function destroy(Request $request, Category $category)
     {
+//        unlink(public_path("storage/uploads/" . strtolower($category->image)));
         $category->delete();
         $categories = Category::getAllCategories();
 
@@ -108,9 +109,7 @@ class CategoryController extends Controller
         }
 
         Alert::success("Deleted!", "Category deleted successfully!");
-
-        if(request()->route()->uri === "/")
-            return redirect()->route("/");
-        return redirect()->route("category.categories");
+// a,d
+        return back();
     }
 }

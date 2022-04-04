@@ -1,7 +1,7 @@
 <div class="card mb-4">
     <table class="table table-hover ">
         <thead>
-            <th>Category Image</th>
+            <th>{{__("global.name")}}</th>
             <th>Category Name</th>
             <th>Status</th>
             <th></th>
