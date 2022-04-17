@@ -1,4 +1,4 @@
-@extends("layouts.master")
+@extends("admin.layouts.master")
 @section("title", "add sub category")
 @section("content")
    <div class="card">
@@ -6,9 +6,9 @@
            Add Sub Category
        </div>
        <div class="card-body">
-           <form name="add-category-form" id="add-category-form" method="post"
-                 action="{{route('subCategory.insert-sub-category')}}" enctype="multipart/form-data">
+               <form method="post" name="insert-sub-category" action="{{route('admin.subCategory.insert-sub-category')}}">
                @csrf
+               @method('post')
                <div class="mb-3">
                    <label>Sub category name:</label>
                    <input type="text" name="name" class="form-control"/>

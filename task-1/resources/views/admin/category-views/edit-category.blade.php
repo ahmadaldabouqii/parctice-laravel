@@ -1,4 +1,4 @@
-@extends("layouts.master")
+@extends("admin.layouts.master")
 @section("title", "edit category")
 @section("content")
     <div class="card">
@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <form name="update-user" id="update-user" method="post"
-                  action="{{route('category.update-category', $category->id)}}" enctype="multipart/form-data">
+                  action="{{route('admin.category.update-category', $category->id)}}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <img style="max-width:10%" alt="{{$category->name}}" src="{{asset('storage/uploads/' . $category->image)}}">

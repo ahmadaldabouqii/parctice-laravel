@@ -1,4 +1,4 @@
-@extends("layouts.master")
+@extends("admin.layouts.master")
 @section("title", "add category")
 @section("content")
     <div class="card">
@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <form name="add-category-form" id="add-category-form" method="post"
-                  action="{{route('category.insert-category')}}" enctype="multipart/form-data">
+                  action="{{route('admin.category.insert-category')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                         <label>Category Image</label>

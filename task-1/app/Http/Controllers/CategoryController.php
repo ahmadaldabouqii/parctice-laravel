@@ -18,20 +18,19 @@ class CategoryController extends Controller
 {
     public function addCategory()
     {
-        return view("category-views.add-category-form");
+        return view("admin.category-views.add-category-form");
     }
 
     public function displayCategories()
     {
         $categories = new Category();
-        return view("category-views.categories", ["categories" => Category::getAllCategories()]);
+        return view("admin.category-views.categories", ["categories" => Category::getAllCategories()]);
     }
 
     public function editCategory($id)
     {
-        $categoryID = new Category();
-        $category = $categoryID->find($id);
-        return view("category-views.edit-category", ["category" => $category]);
+        $category = Category::findOrFail($id);
+        return view("admin.category-views.edit-category", ["category" => $category]);
     }
 
     public function insertCategory(Request $request)
@@ -44,21 +43,21 @@ class CategoryController extends Controller
             "is_active"    => "required",
         ]);
 
-        $image = $request->file("image");
-        $input['image'] = strtolower(str_replace(" ", "-", $image->getClientOriginalName()));
+        $image           = $request->file("image");
+        $input['image']  = strtolower(str_replace(" ", "-", $image->getClientOriginalName()));
         $destinationPath = public_path("storage/uploads");
 
         if(!file_exists(public_path("storage/uploads/" . $input['image']))) {
             $image->move($destinationPath, $input["image"]);
         }
 
-        $category->image = $input['image'];
-        $category->name = $request->name;
+        $category->image     = $input['image'];
+        $category->name      = $request->name;
         $category->is_active = $request->is_active;
         $category->save();
 
         Alert::success("Added!", "category added successfully!");
-        return redirect()->route("category.categories");
+        return redirect()->route("admin.category.categories");
     }
 
     public function updateCategory(Request $request, $id)
@@ -84,15 +83,37 @@ class CategoryController extends Controller
             $category->image = $input["image"];
         }
 
-        $category->name = $request->get("name");
+        $category->name      = $request->get("name");
         $category->is_active = $request->get("is_active");
         $category->save();
 
         Alert::success("Updated!","Category updated successfully");
-        return redirect()->route("category.categories");
+        return redirect()->route("admin.category.categories");
     }
 
-    public function destroy(Request $request, Category $category)
+    public function filterCategory(Request $request)
+    {
+        $request->validate([
+            'filterCategory' => 'Required'
+        ]);
+
+        $filterValue = $request->filterCategory;
+        $categories = [];
+
+        switch ($filterValue){
+            case 'active': $categories = Category::getActiveCategory();
+            break;
+            case 'Inactive': $categories = Category::getInActiveCategory();
+            break;
+            case 'sort': $categories = Category::getAllCategories();
+            break;
+            default: $categories = Category::getAllCategories();
+        }
+
+        return view('admin.category-views.categories', ['categories' => $categories]);
+    }
+
+    public function destroy(Category $category)
     {
 //        unlink(public_path("storage/uploads/" . strtolower($category->image)));
         $category->delete();
@@ -109,7 +130,6 @@ class CategoryController extends Controller
         }
 
         Alert::success("Deleted!", "Category deleted successfully!");
-// a,d
         return back();
     }
 }

@@ -18,6 +18,22 @@ class SubCategory extends Model
 
     public static function getAllSubCategories()
     {
-        return DB::table('sub_categories')->get()->toArray();
+        return SubCategory::get();
+    }
+
+    public function subCategory()
+    {
+        // Retrieve each subCategory belongsTo related category
+        return $this->belongsTo(Category::class);
+    }
+
+    public static function activeSubCategory()
+    {
+        return SubCategory::where('is_active','=',1)->get();
+    }
+
+    public static function inActiveSubCategory()
+    {
+        return SubCategory::where('is_active','=', 0)->get();
     }
 }

@@ -1,4 +1,4 @@
-@extends("layouts.master")
+@extends("admin.layouts.master")
 @section("title", "edit sub category")
 @section("content")
     <div class="card">
@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <form method="post" enctype="multipart/form-data"
-                  action="{{route('subCategory.update-sub-category', $subCategory->id)}}">
+                  action="{{route('admin.subCategory.update-sub-category', $subCategory->id)}}">
                 @csrf
                 @method('PUT')
                 <div class="form-group">

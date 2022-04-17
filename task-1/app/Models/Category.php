@@ -18,6 +18,21 @@ class Category extends Model {
 
     public static function getAllCategories()
     {
-        return DB::table('categories')->get()->toArray();
+        return Category::get();
+    }
+
+    public static function getActiveCategory(){
+        return Category::where('is_active','=', 1)->get();
+    }
+
+    public static function getInActiveCategory(){
+        return Category::where('is_active','=', 0)->get();
+    }
+
+    public function subCategory()
+    {
+        // Retrieve all categories and there childes.
+        // return $this->belongsTo(SubCategory::class);
+        return $this->hasMany(SubCategory::class);
     }
 }

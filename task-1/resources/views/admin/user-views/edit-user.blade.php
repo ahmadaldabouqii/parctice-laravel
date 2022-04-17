@@ -1,4 +1,4 @@
-@extends("layouts.master")
+@extends("admin.layouts.master")
 @section("title", "edit user")
 @section("content")
     <div class="card">
@@ -6,7 +6,7 @@
             Edit user
         </div>
         <div class="card-body">
-            <form name="update-user" id="update-user" method="post" action="{{route('user.update-user', $user->id)}}">
+            <form name="update-user" id="update-user" method="post" action="{{route('admin.user.update-user', $user->id)}}">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -16,6 +16,13 @@
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" name="email" class="form-control" value="{{$user->email}}" />
+                </div>
+                <div class="form-group">
+                    <label>User role:</label>
+                    <select name="role" id="role" class="form-control">
+                        <option value="user"  @if($user->role === "user")  selected @endif>User</option>
+                        <option value="admin" @if($user->role === "admin") selected @endif>Admin</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="phone_number">Phone number:</label>

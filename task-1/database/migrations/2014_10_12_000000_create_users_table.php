@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->enum("role", ["user", "admin"])->default("user");
             $table->string('phone_number');
             $table->boolean('is_active')->default(1);
+            $table->rememberToken();
             $table->timestamps();
         });
     }

@@ -1,8 +1,20 @@
 <div class="card mb-4">
     <table class="table table-hover ">
+        <div class="form-group" style="display: inline-flex ">
+            <form method="post" action="{{route('admin.category.filterCategory')}}">
+                @csrf
+                @method("post")
+                <select class="form-control mr-3 col-md-4" name="filterCategory" id="filterCategory">
+                    <option value="sort">Sort...</option>
+                    <option value="active">Active category</option>
+                    <option value="Inactive">Inactive category</option>
+                </select>
+                <input class="btn btn-success mb-2 mr-2" type="submit" value="Change"/>
+            </form>
+        </div>
         <thead>
-            <th>{{__("global.name")}}</th>
-            <th>Category Name</th>
+            <th>Category Image</th>
+            <th>Category {{__("global.name")}}</th>
             <th>Status</th>
             <th></th>
         </thead>
@@ -21,8 +33,8 @@
                     <td class="status"><span class="waiting">offline</span></td>
                 @endif
                 <td>
-                    <a href="{{ route('category.edit-category', $category->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                    <form action="{{route('category.deleteCategory', $category->id)}}" method="post" style="display: inline-block;" >
+                    <a href="{{ route('admin.category.edit-category', $category->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                    <form action="{{route('admin.category.deleteCategory', $category->id)}}" method="post" style="display: inline-block;" >
                         @method('delete')
                         @csrf
                         <button type="submit" data-name="category" class="show-alert-delete-box btn btn-danger btn-sm">Delete</button>
@@ -36,6 +48,6 @@
         <h3 class="text-center mt-3 mb-3">There is no category yet!</h3>
     @endif
     <div>
-        <a class="btn btn-success float-right mb-2 mr-2" href="{{route('category.add-category')}}">Add new category</a>
+        <a class="btn btn-success float-right mb-2 mr-2" href="{{route('admin.category.add-category')}}">Add new category</a>
     </div>
 </div>

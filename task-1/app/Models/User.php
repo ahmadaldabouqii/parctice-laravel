@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Eloquent;
+
 /**
  * User
  *
@@ -17,6 +18,7 @@ use Eloquent;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    protected $table='users';
 
     public static function getAllUsers()
     {
@@ -48,4 +50,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function getUsers()
+    {
+        return User::where('role','=', 'user')->get();
+    }
+
+    public static function getAdmins()
+    {
+        return User::where('role','=', 'admin')->get();
+    }
 }
