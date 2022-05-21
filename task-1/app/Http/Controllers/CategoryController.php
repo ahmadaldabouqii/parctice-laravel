@@ -21,10 +21,17 @@ class CategoryController extends Controller
         return view("admin.category-views.add-category-form");
     }
 
-    public function displayCategories()
+    public function displayCategories(Request $request)
     {
-        $categories = new Category();
-        return view("admin.category-views.categories", ["categories" => Category::getAllCategories()]);
+
+        return view("admin.category-views.categories",
+            [
+                "categories" => Category::where(function($q) use($request){
+                    if($request->has('is_active'))
+                        return $q->where('is_active', $request->is_active);
+                })->get()
+            ]
+        );
     }
 
     public function editCategory($id)
@@ -62,7 +69,7 @@ class CategoryController extends Controller
 
     public function updateCategory(Request $request, $id)
     {
-        $category = Category::findOrFail($id);
+        $category   = Category::findOrFail($id);
         $categories = Category::getAllCategories();
 
         $request->validate([
@@ -89,28 +96,6 @@ class CategoryController extends Controller
 
         Alert::success("Updated!","Category updated successfully");
         return redirect()->route("admin.category.categories");
-    }
-
-    public function filterCategory(Request $request)
-    {
-        $request->validate([
-            'filterCategory' => 'Required'
-        ]);
-
-        $filterValue = $request->filterCategory;
-        $categories = [];
-
-        switch ($filterValue){
-            case 'active': $categories = Category::getActiveCategory();
-            break;
-            case 'Inactive': $categories = Category::getInActiveCategory();
-            break;
-            case 'sort': $categories = Category::getAllCategories();
-            break;
-            default: $categories = Category::getAllCategories();
-        }
-
-        return view('admin.category-views.categories', ['categories' => $categories]);
     }
 
     public function destroy(Category $category)

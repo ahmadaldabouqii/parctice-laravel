@@ -1,6 +1,6 @@
 $('.show-alert-delete-box').click(function(event) {
-    var form = $(this).closest("form");
-    var name = $(this).data("name");
+    const form = $(this).closest("form");
+    const name = $(this).data("name");
     event.preventDefault();
     return swal({
         title: `Are you sure you want to delete this ${name}?`,

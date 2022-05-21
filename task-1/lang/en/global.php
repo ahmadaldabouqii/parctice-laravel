@@ -1,4 +1,5 @@
 <?php
 return  [
-    "name" => "Name"
+    "name" => "Name",
+    "product_name" => "Product name"
 ];

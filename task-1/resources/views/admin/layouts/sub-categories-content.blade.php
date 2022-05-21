@@ -1,19 +1,24 @@
 <div class="card">
     <table class="table table-hover">
         <div class="form-group" style="display: inline-flex ">
-            <form method="post" action="{{route("admin.subCategory.filterSubCategory")}}">
-                @csrf
-                @method("post")
-                <select class="form-control mr-3 col-md-4" name="filter" id="filter">
-                    <option value="">Sort...</option>
-                    <option value="active">active sub category</option>
-                    <option value="Inactive">Inactive sub category</option>
-                    @foreach($categories as $category)
-                        <option value="{{$category->name}}">{{$category->name}} category</option>
-                    @endforeach
-                </select>
-                <input class="btn btn-success mb-2 mr-2" type="submit" value="Change"/>
-            </form>
+            <select class="form-control mr-3 col-md-4" name="is_active"
+                    onchange="window.location.href=this.value">
+               <option
+                   value="{{route('admin.subCategory.sub-categories')}}"
+                   @if(!request()->has("is_active")) selected  @endif>
+                   All...
+               </option>
+               <option
+                   value="{{route('admin.subCategory.sub-categories', ['is_active' => 1])}}"
+                   @if(request()->has("is_active") && request()->is_active === 1) selected @endif>
+                   active sub category
+               </option>
+               <option
+                   value="{{route('admin.subCategory.sub-categories', ['is_active'  => 0])}}"
+                   @if(request()->has("is_active") && request()->is_active === 0) selected @endif>
+                   Inactive sub category
+               </option>
+            </select>
         </div>
         <thead>
             <th>Sub Category Name</th>

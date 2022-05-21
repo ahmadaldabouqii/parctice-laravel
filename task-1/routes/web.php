@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,13 +40,11 @@ Route::prefix('admin')->controller(UserController::class)->name('admin.')->group
             Route::post('{user}/deleteUser', 'destroy')->name('deleteUser');
             Route::get('edit-user/{id}', 'edit')->name('edit-user');
             Route::put('update-user/{id}', 'update')->name('update-user');
-            Route::post('filterUsers', 'filterUsers')->name('filterUsers');
         });
 
         Route::prefix('category')->controller(CategoryController::class)->name('category.')->group(function () {
             Route::get('add-category', 'addCategory')->name('add-category');
             Route::post('insert-category', 'insertCategory')->name('insert-category');
-            Route::post('filterCategory', 'filterCategory')->name('filterCategory');
             Route::get('categories', 'displayCategories')->name('categories');
             Route::get('edit-category/{id}', 'editCategory')->name('edit-category');
             Route::put('update-category/{id}', 'updateCategory')->name('update-category');
@@ -59,7 +58,17 @@ Route::prefix('admin')->controller(UserController::class)->name('admin.')->group
             Route::get('edit-sub-category/{id}', 'editSubCategory')->name('editSubCategory');
             Route::post('deleteSubCategory/{subCategory}', 'deleteSubCategory')->name('deleteSubCategory');
             Route::put('update-sub-category/{sub_category}', 'updateSubCategory')->name('update-sub-category');
-            Route::post('filterSubCategory', 'filterSubCategory')->name('filterSubCategory');
+        });
+
+        Route::prefix('product')->controller(ProductController::class)->name('product.')->group(function(){
+            Route::get('/','index');
+            Route::get('products', 'index')->name('products');
+            Route::get('add-product', 'addProduct')->name('add-product');
+            Route::post('insert-product', 'store')->name('insert-product');
+            Route::post('delete-product/{product}', 'destroy')->name('delete-product');
+            Route::get('edit-product/{id}', 'edit')->name('edit-product');
+            Route::put('update-product/{id}', 'update')->name('update-product');
+            Route::post('filterProducts', 'filterProducts')->name('filterProducts');
         });
     });
 });

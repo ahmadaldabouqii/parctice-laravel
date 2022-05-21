@@ -1,16 +1,23 @@
 <div class="card mb-4">
     <table class="table table-hover">
         <div class="form-group" style="display: inline-flex ">
-            <form method="post" action="{{route("admin.user.filterUsers")}}">
-                @csrf
-                @method("post")
-                <select class="form-control mr-3 col-md-4" name="filterUsers" id="filterUsers">
-                    <option value="sort">Sort...</option>
-                    <option value="user">Users</option>
-                    <option value="admin">Admins</option>
-                </select>
-                <input class="btn btn-success mb-2 mr-2" type="submit" value="Change"/>
-            </form>
+             <select class="form-control mr-3 col-md-4" name="user_role"
+                     onchange="window.location.href=this.value">
+                 <option
+                     value="{{route('admin.user.users', ['user_role' => 'user'])}}"
+                     style="visibility: hidden; display: none ">
+                     All
+                 </option>
+                 <option value="{{route('admin.user.users', ['user_role' => 'all'])}}">All</option>
+                 <option
+                     value="{{route('admin.user.users', ['user_role' => 'user'])}}">
+                     Users
+                 </option>
+                 <option
+                     value="{{route('admin.user.users', ['user_role' => 'admin'])}}">
+                     Admins
+                 </option>
+             </select>
         </div>
         <thead>
             <th>Username</th>

@@ -17,19 +17,25 @@ use Eloquent;
 
 class SubCategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+
         $categories = Category::getAllCategories();
         return view("admin.subCategory-views.add-sub-category", ["categories" => $categories]);
     }
 
-    public function displaySubCategories()
+    public function displaySubCategories(Request $request)
     {
         $categories = Category::get(["id", "name"]);
         return view("admin.subCategory-views.sub-categories",
             [
-                "sub_categories" => SubCategory::getAllSubCategories(),
-                "categories"     => $categories
+                "sub_categories" => SubCategory::where(function($q) use($request){
+                    if ($request->has('is_active'))
+                        return $q->where('is_active', $request->is_active);
+                    elseif ($request->is_active === 2)
+                        return $q->get();
+                })->get(),
+                "categories" => $categories
             ]
         );
     }
@@ -85,34 +91,6 @@ class SubCategoryController extends Controller
         $sub_category->save();
         Alert::success("Updated!", "Sub category updated successfully!");
         return redirect()->route("admin.subCategory.sub-categories");
-    }
-
-    public function filterSubCategory(Request $request)
-    {
-        $filter = $request->filter;
-        $categories = Category::get(["id", "name"]);
-        $all = [];
-
-        foreach ($categories as $category) {
-            if ($filter === $category->name) {
-                $all = SubCategory::where('category_id', '=', $category->id)->get();
-            }else{
-                switch ($filter){
-                    case 'active': $all = SubCategory::activeSubCategory();
-                        break;
-                    case 'Inactive': $all = SubCategory::inActiveSubCategory();
-                        break;
-                    case '': $all = SubCategory::getAllSubCategories();
-                }
-            }
-        }
-
-        return view('admin.subCategory-views.sub-categories',
-            [
-                'sub_categories' => $all,
-                'categories'     => $categories
-            ]
-        );
     }
 
     public function deleteSubCategory(SubCategory $subCategory)

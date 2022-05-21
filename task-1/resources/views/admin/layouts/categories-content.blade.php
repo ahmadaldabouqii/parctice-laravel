@@ -1,16 +1,24 @@
 <div class="card mb-4">
     <table class="table table-hover ">
         <div class="form-group" style="display: inline-flex ">
-            <form method="post" action="{{route('admin.category.filterCategory')}}">
-                @csrf
-                @method("post")
-                <select class="form-control mr-3 col-md-4" name="filterCategory" id="filterCategory">
-                    <option value="sort">Sort...</option>
-                    <option value="active">Active category</option>
-                    <option value="Inactive">Inactive category</option>
-                </select>
-                <input class="btn btn-success mb-2 mr-2" type="submit" value="Change"/>
-            </form>
+            <select class="form-control mr-3 col-md-4" name="is_active"
+            onchange="window.location.href=this.value">
+                <option
+                    value="{{route('admin.category.categories')}}"
+                    @if(!request()->has('is_active')) selected @endif>
+                    Sort...
+                </option>
+                <option
+                    value="{{route('admin.category.categories', ['is_active' => 1])}}"
+                    @if(request()->has('is_active') && request()->is_active === 1) selected @endif>
+                    Active category
+                </option>
+                <option
+                    value="{{route('admin.category.categories', ['is_active' => 0])}}"
+                    @if(request()->has('is_active') && request()->is_active === 0) selected @endif>
+                    Inactive category
+                </option>
+            </select>
         </div>
         <thead>
             <th>Category Image</th>

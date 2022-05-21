@@ -101,37 +101,25 @@ class UserController extends Controller
         return redirect()->route("admin.user.users");
     }
 
-    public function filterUsers(Request $request)
+    public function displayUsers(Request $request)
     {
-        $request->validate([
-           'filterUsers' => 'required'
-        ]);
-
-        $filterValue = $request->filterUsers;
-        $users = [];
-
-        switch ($filterValue){
-            case 'admin': $users = User::getAdmins();
-            break;
-            case 'user': $users = User::getUsers();
-            break;
-            case 'sort': $users = User::getAllUsers();
-            break;
-            default: $users = User::getAllUsers();
-        }
-
-        return view('admin.user-views.users', ['users' => $users]);
-    }
-
-    public function displayUsers()
-    {
-        return view("admin.user-views.users", ["users" => User::getAllUsers()]);
+        return view("admin.user-views.users",
+            [
+                "users" => User::where(function($q) use($request){
+                    if($request->has('user_role')){
+                        return $q->where('role', $request->user_role);
+                    }elseif ($request->user_role === 'all'){
+                        // return all users
+                    }
+                })->get()
+            ]
+        );
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        Alert::success("Deleted!", "User Deleted successfully!");
+        Alert::success("Deleted!", "User deleted successfully!");
         return redirect()->route("admin.user.users");
     }
 }
